@@ -75,7 +75,7 @@ app.get(
       if(!result)
         return res.status(400).json( {"error":"No se encontro un elemento con ese type"})
 
-      return res.status(200).json({"resultado":result} )
+      return res.status(200).json({"resultado":{count:result.count,timestamp:result.timestamp }} )
     }
     catch (e) {
       res.status(500).json({ "error": e.message })
