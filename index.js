@@ -97,6 +97,10 @@ app.get(
 
       for (const { distancia, tiempo } of data) {
 
+        if (!distancia || ! tiempo ) {
+          return res.status(400).json({ "error": "las propiedades distancia y tiempo son requeridas" })
+        }
+
         if (typeof distancia !== "number" || typeof tiempo !== "number") {
           return res.status(400).json({ "error": "las propiedades distancia y tiempo deben ser numeros" })
         }
