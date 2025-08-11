@@ -150,5 +150,43 @@ app.get(
   }
 )
 
+app.get(
+  "/ratio_segunda_variante", async (req, res) => {
+
+    try {
+      
+      let data = req.query.data
+
+      data = JSON.parse(data)
+
+      if (!data)
+        return res.status(400).json({ "error": "Se requiere un array valido" })
+
+      distanciaTotal = 0
+      tiempoTotal = 0
+
+      for (const { distancia, tiempo } of data) {
+
+        if (!distancia || ! tiempo ) {
+          return res.status(400).json({ "error": "las propiedades distancia y tiempo son requeridas" })
+        }
+
+        if (typeof distancia !== "number" || typeof tiempo !== "number") {
+          return res.status(400).json({ "error": "las propiedades distancia y tiempo deben ser numeros" })
+        }
+
+        distanciaTotal += distancia
+        tiempoTotal += tiempo
+      }
+
+      return res.status(200).json({ resultado: (distanciaTotal / tiempoTotal).toFixed(2) })
+    }
+    catch (e) {
+      console.log( e.message )
+      return res.status(500).json({ error: e.message })
+    }
+  }
+)
+
 app.listen(3000, () => console.log(`Servidor arrancado en servidor 3000`));
 
